@@ -100,7 +100,6 @@
       word-wrap: break-word;
     }
 
-    /* Meme cards grid - CSS Grid usage */
     .meme-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -117,7 +116,6 @@
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       min-width: 0;
-      /* shrink to prevent overflow */
       word-wrap: break-word;
     }
     article.meme-card:hover {
@@ -153,7 +151,6 @@
       font-size: var(--font-size-small);
     }
 
-    /* Lists */
     ul {
       padding-left: 1.25rem;
       margin: 0;
@@ -177,7 +174,6 @@
       transform: scale(1.2);
     }
 
-    /* Links */
     a {
       color: var(--main-color);
       text-decoration: none;
@@ -191,7 +187,6 @@
       outline: none;
     }
 
-    /* Subscription Form - Flexbox usage */
     .subscription-section {
       background: #fff;
       border: 2px solid var(--main-color);
@@ -251,7 +246,6 @@
       outline: none;
     }
 
-    /* Footer */
     footer {
       margin-top: auto;
       padding: var(--spacing-base) 0;
@@ -260,7 +254,6 @@
       text-align: center;
     }
 
-    /* Media Queries */
     @media (max-width: 1024px) {
       main {
         padding: 0 0.5rem;
@@ -373,7 +366,6 @@
   </footer>
 
   <script>
-    // Basic client-side form validation and submission
     const form = document.querySelector('.subscription-form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
