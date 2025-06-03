@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мемы - Лучшая подборка мемов</title>
+  <style>
+    :root {
+      --main-color: #ff3c3c;
+      --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-size-base: 1rem;
+      --font-size-large: 2.75rem;
+      --font-size-medium: 1.25rem;
+      --font-size-small: 0.9rem;
+      --spacing-base: 1rem;
+      --border-radius: 12px;
+      --input-border-color: #ccc;
+      --input-focus-border-color: var(--main-color);
+      --input-placeholder-color: #aaa;
+      --transition-speed: 0.3s;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-primary);
+      background-color: #fafafa;
+      color: #222222;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--spacing-base);
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: calc(var(--spacing-base) * 2);
+      /* header not sticky */
+      position: static;
+      background: transparent;
+      z-index: auto;
+      padding-top: 0;
+      padding-bottom: 0;
+      box-shadow: none;
+    }
+    header h1 {
+      font-size: var(--font-size-large);
+      color: var(--main-color);
+      margin-bottom: 0.2rem;
+      font-weight: 900;
+      text-shadow: 1px 1px 6px rgba(255,60,60,0.6);
+      position: relative;
+      word-wrap: break-word;
+    }
+    header h1::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: var(--main-color);
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+    header h1:hover::after {
+      transform: scaleX(1);
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+      font-style: italic;
+      margin: 0 0 0.5rem;
+      word-wrap: break-word;
+    }
+
+    main {
+      max-width: 960px;
+      width: 100%;
+      padding: 0 var(--spacing-base);
+      box-sizing: border-box;
+    }
+
+    section {
+      margin-bottom: calc(var(--spacing-base) * 3);
+    }
+
+    h2 {
+      font-size: 2rem;
+      border-bottom: 3px solid var(--main-color);
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      word-wrap: break-word;
+    }
+
+    /* Meme cards grid - CSS Grid usage */
+    .meme-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    article.meme-card {
+      background-color: white;
+      border: 2px solid var(--main-color);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 8px rgba(255, 60, 60, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-width: 0;
+      /* shrink to prevent overflow */
+      word-wrap: break-word;
+    }
+    article.meme-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 16px rgba(255, 60, 60, 0.3);
+    }
+    article.meme-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 2px solid var(--main-color);
+      transition: transform 0.3s ease;
+      max-height: 180px;
+      object-fit: cover;
+    }
+    article.meme-card:hover img {
+      transform: scale(1.05);
+    }
+    article.meme-card .meme-info {
+      padding: var(--spacing-base);
+      flex-grow: 1;
+      overflow-wrap: break-word;
+    }
+    article.meme-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: var(--font-size-medium);
+      color: #d93030;
+      word-break: break-word;
+    }
+    article.meme-card p {
+      margin: 0;
+      color: #555;
+      font-size: var(--font-size-small);
+    }
+
+    /* Lists */
+    ul {
+      padding-left: 1.25rem;
+      margin: 0;
+      color: #444;
+      font-size: var(--font-size-base);
+      word-break: break-word;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: var(--main-color);
+      transition: transform 0.3s ease;
+    }
+    li:hover::before {
+      transform: scale(1.2);
+    }
+
+    /* Links */
+    a {
+      color: var(--main-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      word-break: break-word;
+    }
+    a:hover, a:focus {
+      color: #d12020;
+      text-decoration: underline;
+      outline: none;
+    }
+
+    /* Subscription Form - Flexbox usage */
+    .subscription-section {
+      background: #fff;
+      border: 2px solid var(--main-color);
+      padding: var(--spacing-base);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 8px rgba(255, 60, 60, 0.15);
+    }
+    form.subscription-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    form.subscription-form input[type="email"] {
+      flex: 1 1 250px;
+      min-width: 150px;
+      padding: 0.75rem 1rem;
+      font-size: var(--font-size-base);
+      border: 2px solid var(--input-border-color);
+      border-radius: var(--border-radius);
+      outline-offset: 2px;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    form.subscription-form input[type="email"]::placeholder {
+      color: var(--input-placeholder-color);
+      font-style: italic;
+    }
+    form.subscription-form input[type="email"]:focus {
+      border-color: var(--input-focus-border-color);
+      box-shadow: 0 0 8px rgba(255, 60, 60, 0.4);
+    }
+
+    form.subscription-form button[type="submit"] {
+      padding: 0.75rem 1.5rem;
+      font-size: var(--font-size-base);
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+      min-width: 120px;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    form.subscription-form button[type="submit"]:hover,
+    form.subscription-form button[type="submit"]:focus {
+      background-color: #d12020;
+      box-shadow: 0 0 10px rgba(209, 32, 32, 0.6);
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: var(--spacing-base) 0;
+      color: #999;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1024px) {
+      main {
+        padding: 0 0.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.25rem;
+      }
+      header p {
+        font-size: 1.1rem;
+      }
+      h2 {
+        font-size: 1.75rem;
+      }
+      form.subscription-form {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      form.subscription-form button[type="submit"] {
+        width: 100%;
+        min-width: auto;
+      }
+      form.subscription-form input[type="email"] {
+        flex: 1 1 100%;
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.75rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      article.meme-card h3 {
+        font-size: 1.1rem;
+      }
+      article.meme-card p {
+        font-size: 0.85rem;
+      }
+      form.subscription-form button[type="submit"] {
+        font-size: 0.9rem;
+      }
+      form.subscription-form input[type="email"] {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Мемы</h1>
+    <p>Подборка смешных мемов</p>
+  </header>
+  <main>
+    <section aria-labelledby="popular-memes">
+      <h2 id="popular-memes">Популярные мемы</h2>
+      <div class="meme-gallery">
+        <article class="meme-card">
+          <img src="https://media.npr.org/assets/img/2023/01/14/this-is-fine-7e5a97c2aa08a27b7b6c2ed91cd730086afb2b9c.jpg?s=1000" alt="Мем с собакой, которая говорит 'This is fine'" />
+          <div class="meme-info">
+            <h3>This is fine</h3>
+            <p>Мем с собакой, которая спокойно сидит в горящем помещении — символ принятия проблем.</p>
+          </div>
+        </article>
+        <article class="meme-card">
+          <img src="https://i.scdn.co/image/ab67616d0000b2736267a426d1ca9c22b813835a" alt="Мем с человеком, который отмахивается от паука" />
+          <div class="meme-info">
+            <h3>TRALALERO TRALALA</h3>
+            <p>Сгенерированный нейросетью мем, изображающий акулу в кроссовках на трёх ногах.</p>
+          </div>
+        </article>
+        <article class="meme-card">
+          <img src="https://media1.tenor.com/m/NZqiUoAnAFsAAAAd/cat-computer.gif" alt="Мем с Котом, который стучит по клавиатуре" />
+          <div class="meme-info">
+            <h3>Кот-программист</h3>
+            <p>Мем о коте, который усердно печатает на клавиатуре, как настоящий программист.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section aria-labelledby="meme-types">
+      <h2 id="meme-types">Типы мемов</h2>
+      <p>Мемы бывают разных видов. Вот самые популярные типы:</p>
+      <ul>
+        <li><strong>Картинные мемы:</strong> классические изображений с забавным текстом.</li>
+        <li><strong>Видео-мемы:</strong> короткие смешные видео и гифки.</li>
+        <li><strong>Текстовые мемы:</strong> шутки и фразы, которые быстро распространяются.</li>
+        <li><strong>Реакционные мемы:</strong> изображения для выражения эмоций в переписках.</li>
+      </ul>
+      <p>Для создания мемов вы можете использовать такие ресурсы, как <a href="https://imgflip.com/memegenerator" target="_blank" rel="noopener noreferrer">Imgflip Meme Generator</a> и <a href="https://memedroid.com/create" target="_blank" rel="noopener noreferrer">Memedroid</a>.</p>
+    </section>
+
+    <section class="subscription-section" aria-labelledby="subscribe">
+      <h2 id="subscribe">Подписка на новости мемов</h2>
+      <form class="subscription-form" novalidate>
+        <input type="email" name="email" placeholder="Введите ваш email" required aria-label="Email для подписки" />
+        <button type="submit">Подписаться</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Maksimka Inc. Все права защищены.
+  </footer>
+
+  <script>
+    // Basic client-side form validation and submission
+    const form = document.querySelector('.subscription-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emailInput = form.querySelector('input[name="email"]');
+      if (!emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        return;
+      }
+      alert(`Спасибо за подписку, ${emailInput.value}!`);
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+
